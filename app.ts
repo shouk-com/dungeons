@@ -1,10 +1,13 @@
-require('dotenv').config();
-const fs = require('fs');
+import "dotenv/config"
 
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
+import { REST } from '@discordjs/rest';
+import { Routes } from 'discord-api-types/v9';
 
-const { Client, Intents, Collection } = require('discord.js');
+import { Client, Intents } from 'discord.js';
+import { commands } from './commands/controller';
+import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v10';
+
+
 
 const client = new Client({
     intents: [
@@ -15,17 +18,11 @@ const client = new Client({
 
 const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
 
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith(".js"));
+const allcommands: RESTPostAPIApplicationCommandsJSONBody[] = [];
 
-const commands = []
-client.commands = new Collection();
-
-commandFiles.forEach(file => {
-    const command = require(`./commands/${file}`);
-    commands.push(command.data.toJSON());
-    client.commands.set(command.data.name, command)
-});
-
+commands.forEach(command => {
+    allcommands.push(command.data.toJSON())
+})
 
 
 client.once('ready', () => {
@@ -38,19 +35,19 @@ client.once('ready', () => {
             console.log('Started refreshing application (/) commands.');
 
             if (process.env.ENV === "production") {
-                await rest.put(
-                    Routes.applicationCommands(CLIENT_ID),
-                    {
-                        body: commands
-                    },
-                );
+                // await rest.put(
+                //     Routes.applicationCommands(CLIENT_ID),
+                //     {
+                //         body: allcommands
+                //     },
+                // );
                 console.log('Successfully reloaded application (/) commands GLOBALY.');
             }
             else {
                 await rest.put(
                     Routes.applicationGuildCommands(CLIENT_ID, process.env.G_ID),
                     {
-                        body: commands
+                        body: allcommands
                     },
                 );
 
@@ -65,8 +62,9 @@ client.once('ready', () => {
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
 
-    const command = client.commands.get(interaction.commandName)
+    const command = commands.get(interaction.commandName)
     if (!command) return;
+
     try {
         await command.run(interaction)
     } catch (error) {
