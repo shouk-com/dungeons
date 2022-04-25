@@ -25,3 +25,6 @@ TOKEN = <add your token here>
 ```
 7. You also should add your `G_ID` which is the guild id of the server you will be testing your bot in. You can copy the server id by right-clicking the server name in the top left. Also add `ENV = DEV`
 8. Run the server `npm start`
+
+## Common Mistakes
+* When adding the bot make sure you check `applications.commands` in `OAuth > URL Generator`
