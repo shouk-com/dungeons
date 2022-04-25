@@ -8,7 +8,6 @@ import { commands } from './commands/controller';
 import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v10';
 
 
-
 const client = new Client({
     intents: [
         Intents.FLAGS.GUILDS,

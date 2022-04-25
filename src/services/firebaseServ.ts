@@ -8,6 +8,4 @@ export const app = firebase.initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
 
 const firestore = firebase.firestore(app);
-export const db = {
-    games: firestore.collection('games')
-}
+export const db = firestore;

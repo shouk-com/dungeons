@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CacheType, CommandInteraction } from "discord.js";
-import { commandModule } from "../models/commandModel";
+import { commandType } from "../models/types";
 
-export const ping: commandModule = {
+export const ping: commandType = {
     data: new SlashCommandBuilder()
         .setName("ping")
         .setDescription('pong'),
