@@ -2,7 +2,6 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction, CacheType } from "discord.js";
 import { commandType } from "../models/types";
 import { charDocRef } from "../services/dataServices";
-import { db } from "../services/firebaseServ";
 
 
 export const addcharacter: commandType = {
@@ -31,6 +30,6 @@ export const addcharacter: commandType = {
         /**
          * TODO add NLP signaling the addition of a character to the story
          */
-        interaction.channel.send("**A New Story Begins!**")
+        interaction.channel.send(`${characterName} a ${characterRole} has joined the story`)
     }
 }

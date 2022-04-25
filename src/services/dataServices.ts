@@ -18,22 +18,22 @@ export const charConverter: firebase.firestore.FirestoreDataConverter<characterT
 export const gameDocRef = (guildId: string) => {
     return db
         .collection('games')
-        .withConverter(gameConverter)
         .doc(guildId)
+        .withConverter(gameConverter)
 }
 
 export const charColRef = (guildId: string) => {
     return db
         .collection('games')
-        .withConverter(charConverter)
         .doc(guildId)
         .collection('characters')
+        .withConverter(charConverter)
 }
 export const charDocRef = (guildId: string, charId: string) => {
     return db
         .collection('games')
-        .withConverter(charConverter)
         .doc(guildId)
         .collection('characters')
+        .withConverter(charConverter)
         .doc(charId)
 }
