@@ -4,17 +4,17 @@ import { commandType } from "../models/types";
 import { charDocRef, gameDocRef } from "../services/dataServices";
 
 
-export const dochar: commandType = {
+export const saychar: commandType = {
     data: new SlashCommandBuilder()
-        .setName('do')
+        .setName('say')
         .addStringOption(option => {
-            return option.setName("action")
-                .setDescription("What do you do")
+            return option.setName("speech")
+                .setDescription("What do you say")
                 .setRequired(true)
         })
-        .setDescription('Do something in the story'),
+        .setDescription('Sat something in the story'),
     async run(interaction: CommandInteraction<CacheType>) {
-        const action = interaction.options.getString("action"); //TODO convert to reasonable text 
+        const speech = interaction.options.getString("speech"); //TODO convert to reasonable text 
 
         const charSnap = await charDocRef(interaction.guildId, interaction.user.id).get()
         if (!charSnap.exists) {
@@ -38,7 +38,7 @@ export const dochar: commandType = {
 
         await gameDocRef(interaction.guildId)
             .update({
-                content: `${pGameState.content} \n ${character} does ${action}`
+                content: `${pGameState.content} \n ${character} says "${speech}"`
             })
 
 
